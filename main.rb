@@ -12,7 +12,7 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/end'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}!")
     else
-      bot.api.send_message(chat_id: message.chat.id, text: " im stupid bot ")
+      bot.api.send_message(chat_id: message.chat.id, text: " everyone is gay, except alexander moiseev ")
     end
   end
 end
