@@ -6,6 +6,8 @@ require 'net/http'
 require 'json'
 
 
+# curl -F chat_id="260337622" -F document=@"Users/alexandermoiseev/RubyOnRails/2.html" https://api.telegram.org/bot577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck/sendDocument
+
 token = '577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck'
 
 def handle_callback2
@@ -120,4 +122,30 @@ end
       
 # end
  end
+
+
+
+
+
+
+
+
+
+
+ #         workbook = Roo::Spreadsheet.open "https://api.telegram.org/file/bot#{token}/documents/file_4.xlsx"
+# worksheets = workbook.sheets
+# puts "Found #{worksheets.count} worksheets"
+
+# worksheets.each do |worksheet|
+#   puts "Reading: #{worksheet}"
+#   num_rows = 0
+#   workbook.sheet(worksheet).each_row_streaming do |row|
+#     row_cells = row.map { |cell| cell.value }
+#     num_rows += 1
+#   end
+#   puts "Read #{num_rows} rows" 
+# end
+
+
+
   
