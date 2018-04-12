@@ -54,17 +54,21 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
 
           if message.query.include? ':'
             district_part = message.query[message.query.index(':') + 1, message.query.length]
+            program_part = message.query[0, message.query.index(':') + 1]
+
             strip_or_self!(district_part)
+            strip_or_self!(program_part)
+
             puts district_part
+            puts program_part
+
             if district_part.length > 0
               results = results.select {|item|  item[1].downcase.include? district_part.downcase}
             end
 
-             results2 =  results.map do |arr|
-               puts '______'
-              puts arr[2]
+            results2 =  results.map do |arr|
               Telegram::Bot::Types::InlineQueryResultArticle.new(
-                id: arr[0], title: arr[1], input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: arr[2])
+                id: arr[0], title: arr[1], input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: program_part + district_part)
               )
           end
         end
