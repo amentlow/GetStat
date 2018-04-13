@@ -116,11 +116,11 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Touch me', callback_data: 'touch bot'),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Чистая Вода', switch_inline_query_current_chat: 'Чистая Вода, район: '),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'Системы водоотведения, район: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Создание условий для обеспечения качественными коммунальными услугами', switch_inline_query_current_chat: 'Создание условий для обеспечения качественными коммунальными услугами, район: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Энергосбережение и повышение энергетической эффективности на территории Московской области', switch_inline_query_current_chat: 'Энергосбережение и повышение энергетической эффективности на территории Московской области, район: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Развитие и модернизация электроэнергетики в Московской области', switch_inline_query_current_chat: 'Развитие и модернизация электроэнергетики в Московской области, район: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Развитие газификации в Московской области', switch_inline_query_current_chat: 'Развитие газификации в Московской области, район: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Развитие топливозаправочного комплекса в Московской области', switch_inline_query_current_chat: 'Развитие топливозаправочного комплекса в Московской области, район: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Коммунальные услуги', switch_inline_query_current_chat: 'Создание условий для обеспечения качественными коммунальными услугами, район: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Энергосбережение', switch_inline_query_current_chat: 'Энергосбережение и повышение энергетической эффективности на территории Московской области, район: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Электроэнергетика', switch_inline_query_current_chat: 'Развитие и модернизация электроэнергетики в Московской области, район: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Газификация', switch_inline_query_current_chat: 'Развитие газификации в Московской области, район: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Топливозаправочный комплекс', switch_inline_query_current_chat: 'Развитие топливозаправочного комплекса в Московской области, район: '),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Обеспечивающая подпрограмма', switch_inline_query_current_chat: 'Обеспечивающая подпрограмма, район: ')
             ]
             markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb, resize_keyboard: true)
