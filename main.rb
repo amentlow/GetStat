@@ -39,7 +39,7 @@ def is_final_request(message)
 end
 
 Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
-  bot.logger.info('Bot has been started2')
+  bot.logger.info('Bot has been started')
   bot.listen do |message|
 
   Thread.start(message) do |message|
@@ -48,6 +48,8 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
         when Telegram::Bot::Types::InlineQuery
           puts 'Inline comes __'
         
+            puts message.query
+
           results = [
             [1, 'Пушкинский муниципальный район',  'Пушкинский муниципальный район'],
             [2, 'г.о. Кашира',   'г.о. Кашира'],
@@ -98,10 +100,22 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
           # end
            bot.api.send_message(chat_id: message.message.chat.id, text: "Don't touch me!")
            bot.api.answerCallbackQuery(callback_query_id: message.id, text: message.data, show_alert:false)
-        end
+         else if message.data == 'По Типу объекта'
+          puts 'По Типу объекта'
+          kb = [
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ВЗУ', switch_inline_query_current_chat: message.data + ' ' + 'ВЗУ, год:'),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Очистительные сооружения', switch_inline_query_current_chat: 'Очистительные сооружения, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'Системы водоотведения, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Котельни', switch_inline_query_current_chat: 'Котельни, год: ')
+            ]
+            markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb, resize_keyboard: true)
+              bot.api.send_message(chat_id: message.message.chat.id, text: 'Выберите объект', reply_markup: markup)
+            end
+         end
+
       when Telegram::Bot::Types::Message  
         if is_final_request(message)
-          puts 'chart ID'
+          puts 'chat ID'
           puts message.chat.id
           system("curl -F chat_id=\"#{message.chat.id}\" -F document=@\"/Users/alexandermoiseev/RubyOnRails/1.html\" https://api.telegram.org/bot577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck/sendDocument") 
           # system("curl -F chat_id=\"260337622\" -F document=@\"/Users/alexandermoiseev/RubyOnRails/1.html\" https://api.telegram.org/bot577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck/sendDocument") 
@@ -113,6 +127,8 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
             bot.api.send_message(chat_id: message.chat.id, text:'starting new query', reply_markup: answers)
 
             kb = [
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'По Типу объекта', callback_data: 'По Типу объекта'),
+
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Touch me', callback_data: 'touch bot'),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Чистая Вода', switch_inline_query_current_chat: 'Чистая Вода, район: '),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'Системы водоотведения, район: '),
