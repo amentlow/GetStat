@@ -47,48 +47,70 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
       case message
         when Telegram::Bot::Types::InlineQuery
           puts 'Inline comes __'
-        
-            puts message.query
+          if message.query == ''
+             puts 'message.query is str empty!!!!!!!!!!!!!!!!'
+          end
 
-          results = [
-            [1, 'Пушкинский муниципальный район',  'Пушкинский муниципальный район'],
-            [2, 'г.о. Кашира',   'г.о. Кашира'],
-            [3, 'г.о. Луховицы',   'г.о. Луховицы'],
-            [4, 'г.о.Жуковский',  'г.о.Жуковский'],
-            [5, 'Раменский муниципальный район',  'Раменский муниципальный район'],
-            [6, 'Дмитровский муниципальный район',  'Дмитровский муниципальный район'],
-            [7, 'Ленинский муниципальный район',   'Ленинский муниципальный район'],
-            [8, 'КСМО',   'КСМО'],
-            [9, 'Воскресенский муниципальный район', 'Воскресенский муниципальный район'],
-            [99, 'Наро-Фоминск городской округ',  'Наро-Фоминск городской округ'],
-            [23, 'Солнечногорский муниципальный  район', 'Солнечногорский муниципальный  район'],
-            [22, 'Талдомский муниципальный район',  'Талдомский муниципальный район'],
-            [21, 'Щёлковский муниципальный район',  'Щёлковский муниципальный район'],
-            [24, 'г.о. Истра', 'г.о. Истра'],
-            [25, 'г.о.Люберцы',  'г.о.Люберцы'],
-            [26, 'Сергиево-Посадский  муниципальный район','Сергиево-Посадский  муниципальный район'],
-            [27, 'г.о. Павловский Посад', 'г.о. Павловский Посад'],
-            [28, 'г.о.Шатура', 'г.о.Шатура'],
-            [29, 'Дмитровский муниципальный район', 'Дмитровский муниципальный район']
-          ]
+          puts message.query
+          if message.query.include? "По Типу объекта"
+            puts "По Типу объекта___"
+            results = [
+              [1, '2018',  '2018'],
+              [2, '2019',  '2019'],
+              [3, '2020',  '2020'],
+              [4, '2021',  '2021'],
+              [5, '2022',  '2022']
+            ]
 
-          if message.query.include? ':'
-            district_part = message.query[message.query.index(':') + 1, message.query.length]
             program_part = message.query[0, message.query.index(':') + 1]
-
-            strip_or_self!(district_part)
-            strip_or_self!(program_part)
-
-            if district_part.length > 0
-              results = results.select {|item|  item[1].downcase.include? district_part.downcase}
-            end
-
             results2 =  results.map do |arr|
               Telegram::Bot::Types::InlineQueryResultArticle.new(
                 id: arr[0], title: arr[1], input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: program_part + arr[2])
               )
+            end
+
+          elsif message.query != ''
+            puts "По району"
+              results = [
+              [1, 'Пушкинский муниципальный район',  'Пушкинский муниципальный район'],
+              [2, 'г.о. Кашира',   'г.о. Кашира'],
+              [3, 'г.о. Луховицы',   'г.о. Луховицы'],
+              [4, 'г.о.Жуковский',  'г.о.Жуковский'],
+              [5, 'Раменский муниципальный район',  'Раменский муниципальный район'],
+              [6, 'Дмитровский муниципальный район',  'Дмитровский муниципальный район'],
+              [7, 'Ленинский муниципальный район',   'Ленинский муниципальный район'],
+              [8, 'КСМО',   'КСМО'],
+              [9, 'Воскресенский муниципальный район', 'Воскресенский муниципальный район'],
+              [99, 'Наро-Фоминск городской округ',  'Наро-Фоминск городской округ'],
+              [23, 'Солнечногорский муниципальный  район', 'Солнечногорский муниципальный  район'],
+              [22, 'Талдомский муниципальный район',  'Талдомский муниципальный район'],
+              [21, 'Щёлковский муниципальный район',  'Щёлковский муниципальный район'],
+              [24, 'г.о. Истра', 'г.о. Истра'],
+              [25, 'г.о.Люберцы',  'г.о.Люберцы'],
+              [26, 'Сергиево-Посадский  муниципальный район','Сергиево-Посадский  муниципальный район'],
+              [27, 'г.о. Павловский Посад', 'г.о. Павловский Посад'],
+              [28, 'г.о.Шатура', 'г.о.Шатура'],
+              [29, 'Дмитровский муниципальный район', 'Дмитровский муниципальный район']
+            ]
+
+            if message.query.include? ':'
+              district_part = message.query[message.query.index(':') + 1, message.query.length]
+              program_part = message.query[0, message.query.index(':') + 1]
+
+              strip_or_self!(district_part)
+              strip_or_self!(program_part)
+
+              if district_part.length > 0
+                results = results.select {|item| item[1].downcase.include? district_part.downcase}
+              end
+
+              results2 =  results.map do |arr|
+                Telegram::Bot::Types::InlineQueryResultArticle.new(
+                  id: arr[0], title: arr[1], input_message_content: Telegram::Bot::Types::InputTextMessageContent.new(message_text: program_part + arr[2])
+                )
+              end
+            end
           end
-        end
 
         bot.api.answer_inline_query(inline_query_id: message.id, results: results2, cache_time: '0')
       when Telegram::Bot::Types::CallbackQuery
@@ -103,13 +125,14 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
          else if message.data == 'По Типу объекта'
           puts 'По Типу объекта'
           kb = [
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ВЗУ', switch_inline_query_current_chat: message.data + ' ' + 'ВЗУ, год:'),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Очистительные сооружения', switch_inline_query_current_chat: 'Очистительные сооружения, год: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'Системы водоотведения, год: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Котельни', switch_inline_query_current_chat: 'Котельни, год: ')
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ВЗУ', switch_inline_query_current_chat: message.data + ' ' + 'По Типу объекта - ВЗУ, год:'),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Очистительные сооружения', switch_inline_query_current_chat: 'По Типу объекта - Очистительные сооружения, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'По Типу объекта - Системы водоотведения, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Котельни', switch_inline_query_current_chat: 'По Типу объекта - Котельни, год: ')
             ]
             markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb, resize_keyboard: true)
               bot.api.send_message(chat_id: message.message.chat.id, text: 'Выберите объект', reply_markup: markup)
+              bot.api.answerCallbackQuery(callback_query_id: message.id, text: message.data, show_alert:false)
             end
          end
 
@@ -117,7 +140,7 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
         if is_final_request(message)
           puts 'chat ID'
           puts message.chat.id
-          system("curl -F chat_id=\"#{message.chat.id}\" -F document=@\"/Users/alexandermoiseev/RubyOnRails/1.html\" https://api.telegram.org/bot577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck/sendDocument") 
+          system("curl -F chat_id=\"#{message.chat.id}\" -F document=@\"/Users/alexandermoiseev/RubyOnRails/1.html\" https://api.telegram.org/bot#{token}/sendDocument") 
           # system("curl -F chat_id=\"260337622\" -F document=@\"/Users/alexandermoiseev/RubyOnRails/1.html\" https://api.telegram.org/bot577447618:AAHJwCZ51XLxik596Howxf2yVjcpixXMBck/sendDocument") 
         else 
           if message.text == '/start' || message.text == 's' || message.text == 'S' || message.text == 'Start'
@@ -129,7 +152,8 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
             kb = [
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'По Типу объекта', callback_data: 'По Типу объекта'),
 
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Touch me', callback_data: 'touch bot'),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: ' __ Touch me __ (test bot reply)', callback_data: 'touch bot'),
+
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Чистая Вода', switch_inline_query_current_chat: 'Чистая Вода, район: '),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'Системы водоотведения, район: '),
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Коммунальные услуги', switch_inline_query_current_chat: 'Создание условий для обеспечения качественными коммунальными услугами, район: '),
