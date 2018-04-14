@@ -126,9 +126,9 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
           puts 'По Типу объекта'
           kb = [
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ВЗУ', switch_inline_query_current_chat: message.data + ' ' + 'По Типу объекта - ВЗУ, год:'),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Очистительные сооружения', switch_inline_query_current_chat: 'По Типу объекта - Очистительные сооружения, год: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Системы водоотведения', switch_inline_query_current_chat: 'По Типу объекта - Системы водоотведения, год: '),
-              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Котельни', switch_inline_query_current_chat: 'По Типу объекта - Котельни, год: ')
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Очистные сооружения', switch_inline_query_current_chat: 'По Типу объекта - Очистные сооружения, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Военные городки', switch_inline_query_current_chat: 'По Типу объекта - Военные городки, год: '),
+              Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Котельные', switch_inline_query_current_chat: 'По Типу объекта - Котельные, год: ')
             ]
             markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb, resize_keyboard: true)
               bot.api.send_message(chat_id: message.message.chat.id, text: 'Выберите объект', reply_markup: markup)
