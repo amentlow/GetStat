@@ -122,7 +122,7 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
           # end
            bot.api.send_message(chat_id: message.message.chat.id, text: "Don't touch me!")
            bot.api.answerCallbackQuery(callback_query_id: message.id, text: message.data, show_alert:false)
-         else if message.data == 'По Типу объекта'
+         elsif message.data == 'По Типу объекта'
           puts 'По Типу объекта'
           kb = [
               Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ВЗУ', switch_inline_query_current_chat: message.data + ' ' + 'По Типу объекта - ВЗУ, год:'),
@@ -133,9 +133,7 @@ Telegram::Bot::Client.run(token, logger: Logger.new($stderr)) do |bot|
             markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb, resize_keyboard: true)
               bot.api.send_message(chat_id: message.message.chat.id, text: 'Выберите объект', reply_markup: markup)
               bot.api.answerCallbackQuery(callback_query_id: message.id, text: message.data, show_alert:false)
-            end
          end
-
       when Telegram::Bot::Types::Message  
         if is_final_request(message)
           puts 'chat ID'
